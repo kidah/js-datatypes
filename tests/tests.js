@@ -1,57 +1,84 @@
- describe("Car Class: Create a car, make it drive", function() {
+describe("Data types tests ", function() {
+  describe("Case for some falsy values", function() {
 
-    it("The car should be a type of `object`, and an instance of the `Car` class", function() {
-      var honda = new Car('Honda');
-      expect(typeof honda).toEqual(typeof {});
-      expect(honda instanceof Car).toBeTruthy();
+    it("should return 'no value' for null", function() {
+      expect(dataTypes(null)).toEqual('no value');
     });
 
-    it("The car should be called 'General' if no name is passed as a parameter", function() {
-      var gm = new Car();
-      expect(gm.name).toEqual('General');
-      expect(gm.model).toBe('GM');
-    });
-
-    it("The car name and model should be a property of the car", function() {
-      var toyota  = new Car('Toyota', 'Corolla');
-      expect(toyota.name).toBe('Toyota');
-      expect(toyota.model).toBe('Corolla');
-    });
-
-    it("The car shoud have four (4) doors except its a Porshe or Koenigsegg", function() {
-      var opel  = new Car('Opel', 'Omega 3');
-      expect(opel.numOfDoors).toBe(4);
-
-      var porshe = new Car('Porshe', '911 Turbo');
-      expect(porshe.numOfDoors).toBe(2);
-      porshe.drive(5);
-      expect(porshe.speed).toBe('250 km/h');
-      expect((function(){return new Car('Koenigsegg', 'Agera R');}()).numOfDoors).toBe(2);
-    });
-
-    it("The car shoud have four (4) wheels except its a type of trailer", function() {
-      var man  = new Car('MAN', 'Truck', 'trailer');
-      expect(man.numOfWheels).toBe(8);
-      expect(man.isSaloon).toBe(false);
-
-      var koenigsegg = new Car('Koenigsegg', 'Agera R');
-      expect(koenigsegg.numOfWheels).toBe(4);
-      expect(koenigsegg.isSaloon).toBeTruthy();
-    });
-
-    it("The Trailer should have speed 0 km/h until you put `the pedal to the metal`", function() {
-      var man  = new Car('MAN', 'Truck', 'trailer');
-      expect(man.speed).toBe('0 km/h');
-      man.drive(7);
-      expect(man.speed).toBe('77 km/h');
-    });
-
-    it("The car drive function should return the instance of the Car class", function() {
-      var man  = new Car('MAN', 'Truck', 'trailer');
-      var drivingMan = man.drive(7);
-      expect(drivingMan instanceof Car).toBeTruthy();
-      expect(typeof drivingMan.drive).toBe(typeof (function (){}));
-      expect(man.speed).toBe(drivingMan.speed);
+    it("should return 'no value' for undefined", function() {
+      expect(dataTypes(undefined)).toEqual('no value');
     });
 
   });
+
+  describe("Case for booleans", function() {
+
+    it("should return true for `true`", function() {
+      expect(dataTypes(true)).toBe(true);
+    });
+
+    it("should return false for `false`", function() {
+      expect(dataTypes(false)).toBe(false);
+    });
+
+  });
+
+  describe("Case for Numbers", function() {
+
+    it("should return 'less than 100' for 44", function() {
+      expect(dataTypes(44)).toBe('less than 100');
+    });
+
+    it("should return 'more than 100' for 144", function() {
+      expect(dataTypes(144)).toBe('more than 100');
+    });
+
+    it("should return 'equal to 100' for 100", function() {
+      expect(dataTypes(100)).toBe('equal to 100');
+    });
+
+
+  });
+
+  describe("Case for Strings", function() {
+
+    it("should return the length of `tergiversate`", function() {
+      expect(dataTypes('tergiversate')).toBe(12);
+    });
+
+    it("should return the length of an empty string", function() {
+      expect(dataTypes('')).toBe(0);
+    });
+
+    it("should return the length of `555`", function() {
+      expect(dataTypes('555')).toBe(3);
+    });
+
+  });
+
+  describe("Case for arrays", function() {
+
+    it("should return `2` for `[0, 1, 2]`", function() {
+      expect(dataTypes([0, 1, 2])).toBe(2);
+    });
+
+    it("should return `undefined` for `[]`", function() {
+      expect(dataTypes([])).not.toBeDefined();
+    });
+    it("should return `undefined` for `[4, 9]`", function() {
+      expect(dataTypes([4, 9])).not.toBeDefined();
+    });
+  });
+
+  describe("Case for functions", function() {
+    it("should call the `callback` function with argument true, and return `called callback`", function() {
+      var callback = function(arg) {
+        expect(arg).toBeTruthy();
+        if(arg === true) {
+          return 'called callback';
+        }
+      };
+      expect(dataTypes(callback)).toBe('called callback');
+    });
+  });
+});
